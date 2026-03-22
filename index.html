@@ -160,8 +160,12 @@ p{font-size:clamp(1rem,2vw,1.1rem);color:#fda4af;margin-bottom:15px;line-height:
 .btn-tg:hover{box-shadow:0 15px 40px rgba(96,165,250,0.55)}
 .hero-cta{display:flex;flex-wrap:wrap;gap:15px;margin-top:25px}
 .hero-cta .btn{flex:1 1 220px;min-width:200px}
-.sticky-messengers{position:fixed;bottom:20px;right:20px;z-index:999;display:flex;flex-direction:column;gap:12px;animation:pulse_v8 2.6s infinite}
-.sticky-messengers .btn{padding:15px 32px;font-size:0.95rem;box-shadow:0 20px 40px rgba(0,0,0,0.35)}
+.sticky-messengers{position:fixed;bottom:20px;right:20px;z-index:999;display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.sticky-messenger-options{display:flex;flex-direction:column;align-items:flex-end;gap:10px;opacity:0;transform:translateY(8px) scale(.96);pointer-events:none;transition:opacity .22s ease,transform .22s ease}
+.sticky-messengers.is-open .sticky-messenger-options{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+.sticky-messenger-toggle{width:64px;height:64px;border-radius:999px;padding:0;font-size:1.65rem;line-height:1;background:linear-gradient(135deg,#d18a2b,#8b5e1a);box-shadow:0 20px 40px rgba(0,0,0,0.35),0 10px 26px rgba(209,138,43,0.42);display:inline-flex;align-items:center;justify-content:center;animation:pulse_v8 2.6s infinite}
+.sticky-messenger-toggle:hover{transform:translateY(-3px);box-shadow:0 22px 44px rgba(0,0,0,0.42),0 14px 30px rgba(209,138,43,0.5)}
+.sticky-messenger-option{padding:12px 18px;font-size:0.9rem;min-width:188px;box-shadow:0 20px 40px rgba(0,0,0,0.35)}
 @keyframes pulse_v8{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 .hero{padding:80px 0;background:linear-gradient(180deg,#1a0a0e,#200f14);position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-50%;left:-20%;right:-20%;height:150%;background:radial-gradient(circle,rgba(124,58,237,0.2),transparent 60%);animation:shimmer_v8 7.4s ease-in-out infinite}
@@ -292,7 +296,7 @@ footer{background:#0a120c;padding:40px 0;text-align:center;border-top:1px solid 
 .contacts-locked .sticky-messengers{display:none}
 footer{background:#0a0814;padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,0.05)}
 @media(max-width:1024px){.hero-grid{grid-template-columns:1fr;text-align:center}.hero-img{max-width:500px;margin:0 auto}}
-@media(max-width:768px){.trust-grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr;gap:15px}.cards{grid-template-columns:1fr}.btn{padding:15px 28px;font-size:0.95rem}.hero-cta .btn{min-width:unset;flex:1 1 100%}.sticky-messengers{bottom:15px;right:15px;left:15px}.sticky-messengers .btn{width:100%}.hero{padding:60px 0 80px}.hero-grid>div:first-child{order:2;margin-top:25px}.hero-grid>div:last-child{order:1}.hero-img{margin:0 auto 16px}.psychic-name{margin-top:10px;padding:12px 15px}.psychic-name-title{font-size:1.3rem}.psychic-name-subtitle{font-size:0.85rem}}
+@media(max-width:768px){.trust-grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr;gap:15px}.cards{grid-template-columns:1fr}.btn{padding:15px 28px;font-size:0.95rem}.hero-cta .btn{min-width:unset;flex:1 1 100%}.sticky-messengers{bottom:15px;right:15px}.sticky-messenger-toggle{width:58px;height:58px;font-size:1.45rem}.sticky-messenger-option{min-width:170px;padding:11px 16px}.hero{padding:60px 0 80px}.hero-grid>div:first-child{order:2;margin-top:25px}.hero-grid>div:last-child{order:1}.hero-img{margin:0 auto 16px}.psychic-name{margin-top:10px;padding:12px 15px}.psychic-name-title{font-size:1.3rem}.psychic-name-subtitle{font-size:0.85rem}}
 @media(max-width:480px){.container{padding:0 15px}.btn{padding:14px 25px}.card{padding:25px 20px}}
 .slider{position:relative;overflow:hidden;max-width:900px;margin:0 auto}
 .slider-wrapper{display:flex;transition:transform 0.5s ease}
@@ -899,64 +903,6 @@ p {
 <p>Сайт: <a href="https://gadalka-more.online/" style="color:#38bdf8;text-decoration:none" target="_blank">https://gadalka-more.online</a></p>
 </div><p style="text-align:center;margin-top:40px">Используя сайт, вы подтверждаете согласие с настоящей политикой.</p></div>
 </div>
-<div class="age-widget" id="ageWidget">
-<button class="age-widget-btn" data-open-age="">
-<span class="age-widget-icon">18+</span>
-<span class="age-widget-text">Подтвердите 18+</span>
-</button>
-</div>
-<div class="age-modal" id="ageModal">
-<div class="age-modal-overlay" onclick="closeAgeModal()"></div>
-<div class="age-modal-content">
-<button aria-label="Закрыть" class="age-modal-close" onclick="closeAgeModal()" type="button">×</button>
-<div class="age-modal-icon">18+</div>
-<h2 class="age-modal-title">Подтвердите возраст</h2>
-<p class="age-modal-text">Мы открываем контакты только совершеннолетним. Подтвердите, что вам есть 18 лет.</p>
-<label class="age-modal-checkbox">
-<input id="ageConfirmCheckbox" type="checkbox"/>
-<span>Мне есть 18 лет, я согласен(на) с условиями</span>
-</label>
-<div class="age-modal-actions">
-<button class="btn age-confirm-btn" disabled="" id="ageConfirmBtn" type="button">Подтвердить и открыть контакты</button>
-<button class="btn age-cancel-btn" onclick="closeAgeModal()" type="button">Вернуться</button>
-</div>
-</div>
-</div>
-<div class="age-unlock-modal" id="ageUnlockModal">
-<strong>Контакты открыты</strong>
-<p>Теперь можно написать в WhatsApp или Telegram.</p>
-<button class="btn" onclick="closeUnlockModal()">Понятно</button>
-</div>
-<div class="contact-intent-modal" id="contactIntentModal">
-<div class="contact-intent-overlay" onclick="closeContactIntentModal()"></div>
-<div class="contact-intent-content">
-<button aria-label="Закрыть" class="contact-intent-close" onclick="closeContactIntentModal()" type="button">×</button>
-<h3 class="contact-intent-title">Перед открытием чата в <span class="contact-intent-highlight" id="intentMessengerLabel">WhatsApp</span></h3>
-<p class="contact-intent-text">Так я защищаю контакты от случайных кликов. Это займёт минуту.</p>
-<div class="intent-step">
-<label for="intentTopic">Что хотите обсудить?</label>
-<select class="intent-select" id="intentTopic">
-<option value="">Выберите тему</option>
-<option value="love">Гармонизация отношений</option>
-<option value="negative">Очищение и защита</option>
-<option value="diagnostic">Диагностика и консультация</option>
-<option value="other">Другая ситуация</option>
-</select>
-</div>
-<div class="intent-step">
-<label>Подтвердите намерение</label>
-<label class="intent-checkbox">
-<input id="intentReadyCheckbox" type="checkbox"/>
-<span>Я готов(а) открыть чат и описать ситуацию</span>
-</label>
-</div>
-<div class="intent-timer" id="intentTimerHint"></div>
-<div class="contact-intent-actions">
-<a aria-disabled="true" class="btn intent-confirm-btn disabled" href="#" id="intentConfirmBtn" role="button">Перейти в чат</a>
-<button class="btn intent-cancel-btn" onclick="closeContactIntentModal()" type="button">Отмена</button>
-</div>
-</div>
-</div>
 <script>
 (() => {
 const SETTINGS = window.__SITE_SETTINGS__ || {};
@@ -980,7 +926,7 @@ const onlineWords = ['человек','человека','человека','ч�
 const nameVariants = ['{{NAME}}','Гадалка {{NAME}}','Медиум {{NAME}}','Экстрасенс {{NAME}}','Ясновидящая {{NAME}}','Маг {{NAME}}'];
 const footerPrefix = 'Практик';
 const onlineIntro = 'Сейчас на связи';
-let ageConfirmed = localStorage.getItem(AGE_KEY) === '1';
+let ageConfirmed = true;
 let pendingMessengerType = '';
 let pendingMessengerUrl = '';
 let pendingMessengerGoal = '';
@@ -1016,8 +962,7 @@ function applyAgeState(){
     document.querySelectorAll('.messenger-link').forEach(link => {
         link.classList.toggle('is-disabled', !ageConfirmed);
     });
-    if (ageWidget) { ageWidget.style.display = ageConfirmed ? 'none' : 'block'; }
-    document.body.classList.toggle('contacts-locked', !ageConfirmed);
+    document.body.classList.remove('contacts-locked');
     updateContactLinks();
 }
 
@@ -1033,8 +978,6 @@ function updateContactLinks(){
             phoneLink.href = `tel:${phoneNum}`;
             phoneLink.classList.remove('is-locked');
         } else {
-            phoneLink.href = '#ageWidget';
-            if (!phoneLink.classList.contains('is-locked')) { phoneLink.classList.add('is-locked'); }
             phoneLink.removeAttribute('target');
         }
     }
@@ -1094,59 +1037,108 @@ function initSmoothScroll(){
 function initMessengerIntent(){
     const waButtons = Array.from(document.querySelectorAll('[data-messenger="wa"],[data-wa],.btn-wa'));
     const tgButtons = Array.from(document.querySelectorAll('[data-messenger="tg"],[data-telegram],.btn-tg'));
-    const attachIntentHandlers = (buttons, type, targetUrl) => {
+    const sticky = document.getElementById('stickyMessengers');
+    const stickyToggle = document.getElementById('stickyMessengerToggle');
+    const setStickyOpen = open => {
+        if (!sticky || !stickyToggle) { return; }
+        sticky.classList.toggle('is-open', !!open);
+        stickyToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    const closeSticky = () => setStickyOpen(false);
+    const toggleSticky = () => {
+        if (!sticky) { return; }
+        setStickyOpen(!sticky.classList.contains('is-open'));
+    };
+    const attachDirectHandlers = (buttons, type, targetUrl) => {
         buttons.forEach(btn => {
+            const isAnchor = btn.tagName === 'A';
             if (btn.tagName === 'A') {
-                btn.removeAttribute('href');
-                btn.removeAttribute('target');
-                btn.removeAttribute('rel');
-                btn.setAttribute('role', 'button');
-                btn.setAttribute('tabindex', '0');
+                if (window.__METRIKA_MESSENGER_VISIBLE__ !== false) {
+                    btn.setAttribute('href', targetUrl);
+                    btn.setAttribute('target', '_blank');
+                    btn.setAttribute('rel', 'noopener');
+                    btn.removeAttribute('role');
+                    btn.removeAttribute('tabindex');
+                } else {
+                    btn.removeAttribute('href');
+                    btn.removeAttribute('target');
+                    btn.removeAttribute('rel');
+                    btn.setAttribute('role', 'button');
+                    btn.setAttribute('tabindex', '0');
+                }
             }
-            const openModal = evt => {
-                if (document.body.classList.contains('contacts-locked')) {
-                    if (evt) { evt.preventDefault(); }
-                    openAgeModal();
-                    return;
+            const openDirect = () => {
+                let opened = false;
+                try {
+                    const newTab = window.open(targetUrl, '_blank');
+                    opened = Boolean(newTab);
+                } catch (err) {}
+                if (!opened) {
+                    try { window.location.href = targetUrl; } catch (err) {}
                 }
-                if (evt) {
-                    evt.preventDefault();
-                    evt.stopPropagation();
-                }
-                openContactIntentModal(type, targetUrl);
             };
-            btn.addEventListener('click', openModal);
-            btn.addEventListener('keydown', evt => {
-                if (evt.key === 'Enter' || evt.key === ' ') {
-                    evt.preventDefault();
-                    openModal(evt);
+            btn.addEventListener('click', evt => {
+                if (window.__METRIKA_MESSENGER_VISIBLE__ !== false && typeof ym === 'function' && YM_COUNTER) {
+                    try {
+                        ym(YM_COUNTER, 'reachGoal', type === 'telegram' ? 'tg_click' : 'wa_click');
+                    } catch (err) {
+                        try { ym(YM_COUNTER, 'reachGoal', 'all_messenger'); } catch (innerErr) {}
+                    }
                 }
+                const trackPromise = window.__siteStatsTracker && typeof window.__siteStatsTracker.track === 'function'
+                    ? window.__siteStatsTracker.track({
+                        channel: type === 'telegram' ? 'telegram' : 'whatsapp',
+                        moduleName: 'direct-click',
+                        buttonLabel: type === 'telegram' ? 'telegram' : 'whatsapp'
+                    })
+                    : Promise.resolve();
+                Promise.resolve(trackPromise).catch(() => {});
+                if (window.__METRIKA_MESSENGER_VISIBLE__ === false || !isAnchor) {
+                    if (evt) {
+                        evt.preventDefault();
+                        evt.stopPropagation();
+                    }
+                    openDirect();
+                }
+                closeSticky();
             });
+            if (window.__METRIKA_MESSENGER_VISIBLE__ === false) {
+                btn.addEventListener('keydown', evt => {
+                    if (evt.key === 'Enter' || evt.key === ' ') {
+                        evt.preventDefault();
+                        openDirect();
+                        closeSticky();
+                    }
+                });
+            }
         });
     };
+    if (sticky && stickyToggle) {
+        stickyToggle.addEventListener('click', evt => {
+            evt.preventDefault();
+            evt.stopPropagation();
+            toggleSticky();
+        });
+        document.addEventListener('click', evt => {
+            if (!sticky.contains(evt.target)) {
+                closeSticky();
+            }
+        });
+    }
     if (TARGET_WA_URL) {
-        attachIntentHandlers(waButtons, 'whatsapp', TARGET_WA_URL);
+        attachDirectHandlers(waButtons, 'whatsapp', TARGET_WA_URL);
     }
     if (TG_ENABLED && TARGET_TG_URL) {
-        attachIntentHandlers(tgButtons, 'telegram', TARGET_TG_URL);
+        attachDirectHandlers(tgButtons, 'telegram', TARGET_TG_URL);
     } else {
         tgButtons.forEach(btn => { btn.style.display = 'none'; });
-        const sticky = document.getElementById('stickyMessengers');
         if (sticky) {
-            const visible = Array.from(sticky.children).some(child => child.style.display !== 'none');
+            const visible = Array.from(sticky.querySelectorAll('[data-wa],[data-telegram]')).some(child => child.style.display !== 'none');
             if (!visible) { sticky.style.display = 'none'; }
         }
         document.querySelectorAll('[data-single-text]').forEach(el => {
             const fallback = el.getAttribute('data-single-text');
             if (fallback) { el.textContent = fallback; }
-        });
-    }
-    if (intentTopic) { intentTopic.addEventListener('change', updateIntentConfirmState); }
-    if (intentReadyCheckbox) { intentReadyCheckbox.addEventListener('change', updateIntentConfirmState); }
-    if (intentConfirmBtn) {
-        intentConfirmBtn.addEventListener('click', evt => {
-            evt.preventDefault();
-            handleIntentConfirm();
         });
     }
 }
