@@ -453,8 +453,11 @@ p {
 </head>
 <body>
 <div class="sticky-messengers" id="stickyMessengers">
-<a class="btn btn-wa" data-wa="true" href="https://wa.me/79604485578" rel="noopener" target="_blank">Написать в WhatsApp</a>
-<a class="btn btn-tg" data-telegram="true" href="https://t.me/anna_more_magic" rel="noopener" target="_blank">Открыть Telegram</a>
+<div class="sticky-messenger-options" id="stickyMessengerOptions">
+<a class="btn btn-wa sticky-messenger-option" data-wa="true" role="button" tabindex="0">📲 WhatsApp</a>
+<a class="btn btn-tg sticky-messenger-option" data-telegram="true" role="button" tabindex="0">✈ Telegram</a>
+</div>
+<button type="button" class="btn sticky-messenger-toggle" id="stickyMessengerToggle" aria-label="Открыть выбор мессенджера" aria-expanded="false">💬</button>
 </div>
 <section class="hero">
 <div class="container">
@@ -470,8 +473,8 @@ p {
 <div class="trust-item"><span style="font-size:1.5rem">📱</span><span style="font-size:0.85rem;font-weight:600">Поддержка</span></div>
 </div>
 <div class="hero-cta">
-<a class="btn btn-wa" data-wa="true" href="https://wa.me/79604485578" rel="noopener" target="_blank">Написать в WhatsApp</a>
-<a class="btn btn-tg" data-telegram="true" href="https://t.me/anna_more_magic" rel="noopener" target="_blank">Открыть Telegram</a>
+<a class="btn btn-wa" data-wa="true"  rel="noopener" target="_blank" role="button" tabindex="0">Написать в WhatsApp</a>
+<a class="btn btn-tg" data-telegram="true"  rel="noopener" target="_blank" role="button" tabindex="0">Открыть Telegram</a>
 </div>
 </div>
 <div>
@@ -877,8 +880,8 @@ p {
 <h2>Нужна поддержка сегодня?</h2>
 <p style="font-size:1.2rem;color:#e0f2fe">Напишите — помогу вернуть спокойствие.</p>
 <div class="cta-buttons">
-<a class="btn btn-wa" data-messenger="wa" href="#">Написать в WhatsApp</a>
-<a class="btn btn-tg" data-messenger="tg" href="#">Открыть Telegram</a>
+<a class="btn btn-wa" data-messenger="wa"  role="button" tabindex="0">Написать в WhatsApp</a>
+<a class="btn btn-tg" data-messenger="tg"  role="button" tabindex="0">Открыть Telegram</a>
 </div>
 </div>
 </div>
