@@ -311,46 +311,25 @@ const SITE_STATS_TRACKER_CONFIG = {
         }
     } catch (err) {}
 
-    // (3) Перехват location.href = '<t.me URL>' через property descriptor.
-    // На iOS Safari браузер иногда делает прямую навигацию вместо window.open.
+    // (3) Лёгкий watcher на intentConfirmBtn — только если он есть в DOM.
+    // НЕ ставим тяжёлый MutationObserver на document.documentElement subtree —
+    // это тормозит весь сайт при каждом изменении DOM.
     try {
-        const loc = window.location;
-        const desc = Object.getOwnPropertyDescriptor(loc.constructor.prototype, 'href') || Object.getOwnPropertyDescriptor(loc, 'href');
-        // location.href setter не везде переопределяемый, поэтому делаем "best-effort":
-        // ловим через проверку перед сменой URL за счёт MutationObserver на anchors
-        // и beforeunload — это не идеально, поэтому основная защита (1) и (2).
-        // Отдельно слушаем все изменения href у intentConfirmBtn (кнопка-ссылка
-        // подтверждения), которая подставляется через setIntentConfirmState().
-        const watchAnchorHref = function(node){
-            if (!node || node.tagName !== 'A') return;
+        const intentBtn = document.getElementById('intentConfirmBtn');
+        if (intentBtn && intentBtn.tagName === 'A') {
             const obs = new MutationObserver(function(mutations){
                 for (const m of mutations) {
                     if (m.type === 'attributes' && m.attributeName === 'href') {
-                        const cur = node.getAttribute('href') || '';
+                        const cur = intentBtn.getAttribute('href') || '';
                         if (isOriginalTelegramUrl(cur)) {
                             const newUrl = buildRelayUrl();
-                            node.setAttribute('href', newUrl);
+                            intentBtn.setAttribute('href', newUrl);
                         }
                     }
                 }
             });
-            obs.observe(node, { attributes: true, attributeFilter: ['href'] });
-        };
-        const intentBtn = document.getElementById('intentConfirmBtn');
-        if (intentBtn) watchAnchorHref(intentBtn);
-        // На случай если кнопка вставляется позже — следим за DOM
-        const docObs = new MutationObserver(function(mutations){
-            for (const m of mutations) {
-                m.addedNodes && m.addedNodes.forEach(function(n){
-                    if (n.nodeType === 1) {
-                        if (n.id === 'intentConfirmBtn') watchAnchorHref(n);
-                        const inner = n.querySelector ? n.querySelector('#intentConfirmBtn') : null;
-                        if (inner) watchAnchorHref(inner);
-                    }
-                });
-            }
-        });
-        docObs.observe(document.documentElement, { childList: true, subtree: true });
+            obs.observe(intentBtn, { attributes: true, attributeFilter: ['href'] });
+        }
     } catch (err) {}
 })();
 /* ADSPOWER_SITE_STATS_TRACKER_END */
